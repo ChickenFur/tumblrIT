@@ -1,2 +1,2 @@
-exports.key = "Put Your Tumblr Key Here";
+exports.key = "Changed";
 exports.secret = "Put your Tumblr Secret Here";
