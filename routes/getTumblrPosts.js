@@ -20,7 +20,7 @@ var askServerForPosts = function(localServerResponse){
       });
       //once we get all the data send the response
       response.on('end', function(data){
-        localServerResponse.send(JSON.stringify(thePosts));
+        localServerResponse.end(thePosts);
       })
       }); 
   //console.log("The Posts Contain: " +thePosts);
