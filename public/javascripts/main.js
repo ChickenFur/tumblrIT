@@ -4,17 +4,24 @@ $.ajax("/getTumblrPosts", {
   type: "GET",
   success: function (data){
     var imageURLs = [];
-    var results = $(data).find("photo-url").text();
+    data = data.slice(data.indexOf('{'), data.length -2 );
+    var results = JSON.parse(data);
+    for(var i = 0; i < results.posts.length; i++){
+      if(results.posts[i].type === "photo"){
 
-
-    
-    while(results.indexOf(".jpg") > 0){
-      imageURLs.push (results.slice(0,  (results.indexOf(".jpg") + 4 ) ) );
-      results = (results.slice(results.indexOf(".jpg") + 4 ));
+        if(results.posts[i].photos.length === 0){
+           imageURLs.push({
+            small : results.posts[i]["photo-url-250"],
+            big : results.posts[i]["photo-url-1280"]})
+        }  
+        for(var k = 0; k < results.posts[i].photos.length; k ++){  
+          imageURLs.push({
+            small : results.posts[i].photos[k]["photo-url-250"],
+            big : results.posts[i].photos[k]["photo-url-1280"]})
+        }
+      }
     }
     displayPhotos(imageURLs);
-
-    
   }
 
 
@@ -26,7 +33,9 @@ var displayPhotos = function(imageURLsArray)
 {
   for(var i = 0; i < imageURLsArray.length; i ++)
   {
-    $("body").append("<img src='" + imageURLsArray[i] + "'/>")
+    $("body").append("<a href='" + imageURLsArray[i].big + "'>" +
+                        "<img src='" + imageURLsArray[i].small + "'/>" +
+                      "</a>")
   }
 
 };

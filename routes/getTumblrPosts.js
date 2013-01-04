@@ -13,7 +13,12 @@ exports.addTumblrPost = function(request, response){
 
 var askServerForPosts = function(localServerResponse){
   var thePosts = "";
-  var request = http.get("http://wisechicken.tumblr.com/api/read/json", function(response){
+  var request = http.get(
+      { 
+        hostname: 'wisechicken.tumblr.com',
+        path: '/api/read/json',
+        num: 50
+      }, function(response){
       //collect the stream of data in chunks
       response.on('data', function (chunk){
           thePosts += chunk;
